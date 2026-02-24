@@ -11,3 +11,10 @@ connected Mongodb compass
 always use try catch while working with databases, use async await
 
 in which file you are using env variables always import 'dotenv/config'
+
+
+cookie-parser, cors installing
+
+make classes for ApiError and ApiResponse
+
+make a wrapper function(responseHandler) to do database related works
