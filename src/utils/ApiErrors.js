@@ -7,15 +7,15 @@ class ApiError extends Error{
     constructor(statusCode, message="Something went wrong", errors = [], stack ="" ){
 
 
-        super(message)
+        super(message)// calling the parent class constructor so that we can use 'this.' to override the variables
         this.statusCode = statusCode
-        this.data = null
+        this.data = null // useful data to return after Api call, initially nul, after successful api call it will be initialised and returned
         this.message = message
         this.success = false
         this.errors = errors
 
         if(stack){
-            this.stack = stack
+            this.stack = stack //trace of executuion
         }else{
             Error.captureStackTrace(this, this.constructor)
         }
@@ -25,3 +25,6 @@ class ApiError extends Error{
 
 
 export {ApiError}
+
+
+//Now we can throw custom ApiErrors with details in json format
