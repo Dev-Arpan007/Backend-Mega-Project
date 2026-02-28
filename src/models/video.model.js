@@ -39,5 +39,5 @@ const videoSchema =  new Schema({
 },{timestamps:true})
 
 
-videoSchema.plugin(mongooseAggregatePaginate)
+videoSchema.plugin(mongooseAggregatePaginate)  // Plugins = Extra functionality added to a schema
 export const Video = mongoose.model("Video", videoSchema)
