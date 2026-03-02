@@ -1,8 +1,8 @@
 const asyncHandler = (fn)=>{
-    (req, res, next)=>{
+    return (req, res, next)=>{
         Promise.resolve(fn(req, res, next)).catch((err)=>next(err))
     }
-}
+} // it's a higher order function, it takes a function, executes it and returns as a function
 
 
 export {asyncHandler}

@@ -36,4 +36,19 @@ app.use(cookieparser())
 //  A small piece of info that the server sstores in user's browser to remember the user
 
 
+
+//routes import
+
+import userRouter from "./routes/user.routes.js"
+
+
+
+//routes declaration
+
+app.use("/api/v1/users", userRouter)
+// since we are using router here that is declared somewhere else, we can't directly use app.get("url", func)
+
+// when user hits '/api/v1/users', control will go to userRouter
+
+
 export {app}
