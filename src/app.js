@@ -40,7 +40,7 @@ app.use(cookieparser())
 //routes import
 
 import userRouter from "./routes/user.routes.js"
-
+//since router was exported as 'default' we were able to change the name to userRouter
 
 
 //routes declaration
