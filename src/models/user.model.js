@@ -54,10 +54,10 @@ const userSchema = new Schema({
 // middleware: just before saving the updation in password field, encrypt it with 10 rounds
 // in middleware we must use next() at last, next() is in func(err,req,res,next)
 userSchema.pre("save", async function(next){
-    if(!this.isModified("password")) return next()
+    if(!this.isModified("password")) return next
     
     this.password = await bcrypt.hash(this.password, 10)
-    next()
+    return next
 })
 
 //middleware: making a method on UserSchema to compare the input passwrod with the encrypted password
