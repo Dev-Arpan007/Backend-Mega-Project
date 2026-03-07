@@ -1,7 +1,7 @@
-import { ApiError } from "../utils/apiErrors";
-import { asyncHandler } from "../utils/asyncHandler";
+import { ApiError } from "../utils/apiErrors.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken"
-import { User } from "../models/user.model";
+import { User } from "../models/user.model.js";
 
 export const verifyJWT = asyncHandler(async (req, _, next)=>{   //since res in not being used it is represented as '_'
     try {

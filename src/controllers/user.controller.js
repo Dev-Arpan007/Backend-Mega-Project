@@ -8,13 +8,15 @@ const generateAccessAndRefreshToken = async(userId) =>{
     try {
         const user = await User.findById(userId) //finding in db among all users, that's why using 'User'
 
-        const accessToken = user.generateAccessToken() // generating for a specific user which we found by id and stored in variable 'user'
+        const accessToken = await user.generateAccessToken() // generating for a specific user which we found by id and stored in variable 'user'
 
-        const refreshToken = user.generateRefreshToken()
+        const refreshToken = await user.generateRefreshToken()
 
         user.refreshToken = refreshToken //saving the refreshtoken in db 
-
+        // console.log("refreshToken: ", user.refreshToken)
         await user.save({validateBeforeSave: false}) // saving the changes after adding refresh token in db
+
+        // console.log("User with refreshToken: \n", user)
 
         return {accessToken, refreshToken}
         
@@ -175,7 +177,7 @@ const loginUser = asyncHandler(async (req, res)=>{
     const {email, userName, password} = req.body
 
     if(!userName && !email){
-        throw new ApiError(400, "atleast userName or password required")
+        throw new ApiError(400, "atleast userName or email required")
     }
 
     const user = await User.findOne(
@@ -227,7 +229,7 @@ const logoutUser = asyncHandler(async (req, res)=>{
            
         },
         {
-                new: true
+                returnDocument: "after"
         }
 
     )
