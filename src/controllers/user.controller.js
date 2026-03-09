@@ -323,7 +323,7 @@ const changeCurrentPassword = asyncHandler(async (req, res) =>{
 
 const getCurrentUser = asyncHandler(async (req, res) =>{
     return res.status(200)
-    .json(200, req.user, "Current user fetched successfully")
+    .json(new ApiResponse(200, req.user, "Current user fetched successfully"))
 })
 
 const updateAccountDetails = asyncHandler(async (req, res )=>{
@@ -348,6 +348,15 @@ const updateAccountDetails = asyncHandler(async (req, res )=>{
             returnDocument: "after"
         }
     ).select("-password")
+
+
+    //TODO: DELETE PREVIOUS AVATAR FROM CLOUDINARY
+    //
+    //  utility
+    //
+    //
+
+
 
     return res
     .status(200)
@@ -381,6 +390,14 @@ const updateUserAvatar = asyncHandler(async (req, res) =>{
             returnDocument: "after"
         }
     )
+
+
+    //TODO: DELETE PREVIOUS COVER FROM CLOUDINARY
+    //
+    //
+    //
+    //
+
 
     return res
     .status(200)
@@ -423,6 +440,86 @@ const updateUserCoverImage = asyncHandler(async (req, res) =>{
 })
 
 
+const getUserChannelProfile = asyncHandler(async(req,res)=>{
+
+    const {userName} = req.params //parameter from url, since at the time of going to a channel, we mainly go to the url, which also contains the username
+
+    if(!userName?.trim()){
+        throw new ApiError(400, "User Name is missing")
+    }
+
+        //aggregate pipeline returns arrays
+    const channel = await User.aggregate([
+        {
+            $match:{ //where clause kind of
+                userName : userName?.toLowerCase()
+            }
+        },
+        {
+            $lookup:{ //joining operation
+                from: "subscriptions", // Subscription Table got stored in Mongodb as "subscriptions"
+                localField:"_id",
+                foreignField: "channel",
+                as: "subscribersList"
+            }
+        },
+        {
+            $lookup:{
+                 from: "subscriptions", // Subscription Table got stored in Mongodb as "subscriptions"
+                localField:"_id",
+                foreignField: "subscriber",
+                as: "subscribedToList"
+            }
+        },
+        {
+            $addFields:{
+                subcribersCount:{
+                    $size: "$subscribersList" //using $ bcz its a field, not a table
+
+                },
+                channelsSubscribedToCount:{
+                    $size : "$subscribedToList"
+                },
+                isSubscribed:{
+                    $cond:{
+                        if: {
+                            $in: [req.user?._id, "$subscribersList.subscriber"] //subscriber defined in Subscription model store the _id of the user that has subscribed the channel
+                        },
+                        then: true,
+                        else: false
+                    }
+                }
+            }
+        },
+        {
+            $project:{
+                fullName : 1 ,// ! means fullName to be projected 
+                userName: 1,
+                subcribersCount : 1,
+                channelsSubscribedToCount: 1,
+                isSubscribed: 1,
+                avatar : 1,
+                coverImage : 1,
+                email : 1
+
+            }
+        }
+    ])
+
+    console.log(`From Aggregation pipeline: \n ${channel}`) // array of rows in ultimate table
+
+    if (!channel?.length) {
+        throw new ApiError(404, "Channel doesn't exist")
+        
+    }
+
+    return res
+    .status(200)
+    .json(200, channel[0], "User channel fetched successfully")
+})
+
+
+
 
 export {
     registerUser,
@@ -433,7 +530,8 @@ export {
     getCurrentUser,
     updateAccountDetails,
     updateUserAvatar,
-    updateUserCoverImage
+    updateUserCoverImage,
+    getUserChannelProfile
 }
 
 
