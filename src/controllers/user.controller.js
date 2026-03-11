@@ -519,6 +519,64 @@ const getUserChannelProfile = asyncHandler(async(req,res)=>{
 })
 
 
+const getWatchHistory = asyncHandler(async(req, res)=>{
+    const user = await User.aggregate([
+        {
+            $match:{
+                _id: new mongoose.Types.ObjectId(req.user._id)
+
+                //Why didn't we use _id : req.user._id ?
+                //Ans: In mongodb every element has a unique _id, Ex: objectId('1233455'). But when we do req.user._id, it returns only '1233455'
+                //it is the string part only, we need to make an object to get the actual id, that's why we did mongoose.Types.objectId(req.user._id)
+
+                // Then why did we not do this earlier?
+                //Since we are handling mongoose, it was handling these things internally. But for this aggreagation pipeline, we need to do it manually. For another example, we were using 'Video' to define 'Video' database model, but we are using 'videos' at the time of using aggregation pipelines.
+            }
+        },
+        {
+            $lookup: {
+                from: "videos",
+                localField: "watchHistory",
+                foreignField: "_id",
+                as: "watchHistoryList",
+                pipeline: [
+                    {
+                        $lookup:{
+                            from: "users",
+                            localField: "owner",
+                            foreignField: "_id",
+                            as: "ownerList",
+
+                            pipeline:[
+                                {
+                                    $project: {
+                                        fullName: 1,
+                                        userName: 1,
+                                        avatar: 1
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        $addFields:{
+                            ownerList:{
+                                $first: "$ownerList"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    ])
+
+
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(200, user[0].watchHistoryList, "Watch History fetched Successfully")
+    )
+})
 
 
 export {
@@ -531,7 +589,8 @@ export {
     updateAccountDetails,
     updateUserAvatar,
     updateUserCoverImage,
-    getUserChannelProfile
+    getUserChannelProfile,
+    getWatchHistory
 }
 
 
