@@ -11,7 +11,7 @@ export const verifyJWT = asyncHandler(async (req, _, next)=>{   //since res in n
         //that's why for the second case we are removing 'Bearer ' to get the token only
         
         if(!token){
-            throw new ApiError(401, "Unauthorized request")
+            throw new ApiError(401, "Unauthorized request while finding access-token")
         }
     
         const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)

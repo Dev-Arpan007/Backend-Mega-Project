@@ -4,6 +4,7 @@ import { User } from "../models/user.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken"
+import mongoose from "mongoose";
 
 const generateAccessAndRefreshToken = async(userId) =>{
     try {
@@ -224,8 +225,8 @@ const logoutUser = asyncHandler(async (req, res)=>{
     await User.findByIdAndUpdate(
         req.user._id,
         {
-            $set: {
-                refreshToken: undefined
+            $unset: {
+                refreshToken: 1
             }
            
         },
@@ -249,10 +250,12 @@ const logoutUser = asyncHandler(async (req, res)=>{
 
 
 const refreshAccessToken = asyncHandler(async (req, res)=>{
+    // console.log("before fetching old req token")
     const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
+    // console.log("after fetching old req token")
 
     if(!incomingRefreshToken){
-        throw new ApiError(401, "Unauthorized request")
+        throw new ApiError(401, "Unauthorized request while finding old refresh-token")
     }
 
     try {
@@ -273,8 +276,8 @@ const refreshAccessToken = asyncHandler(async (req, res)=>{
             secure: true
         }
     
-       const {accessToken, newRefreshToken} = await generateAccessAndRefreshToken(user._id)
-    
+       const {accessToken, refreshToken} = await generateAccessAndRefreshToken(user._id)
+        const newRefreshToken = refreshToken
        return res
        .status(200)
        .cookie("accessToken", accessToken, options)
@@ -282,7 +285,7 @@ const refreshAccessToken = asyncHandler(async (req, res)=>{
        .json(
             new ApiResponse(
                 200,
-                {accessToken, refreshToken: newResponseToken},
+                {accessToken, "refreshToken": newRefreshToken},
                 "Access token refreshed"
             )
        )
@@ -315,13 +318,18 @@ const changeCurrentPassword = asyncHandler(async (req, res) =>{
 
     await user.save({validateBeforeSave: false})
 
-    return res.status(200)
+    return res
+    .status(200)
     .json(new ApiResponse(200, {}, "Password changed successfully"))
 
 
 })
 
 const getCurrentUser = asyncHandler(async (req, res) =>{
+    // const user = req.user
+    // if(!user){
+    //     throw new ApiError(401,{},"User not found")
+    // }
     return res.status(200)
     .json(new ApiResponse(200, req.user, "Current user fetched successfully"))
 })
@@ -515,7 +523,7 @@ const getUserChannelProfile = asyncHandler(async(req,res)=>{
 
     return res
     .status(200)
-    .json(200, channel[0], "User channel fetched successfully")
+    .json(new ApiResponse(200, channel[0], "User channel fetched successfully"))
 })
 
 
