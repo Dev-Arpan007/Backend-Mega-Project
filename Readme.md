@@ -17,10 +17,10 @@ A full-stack web application that allows users to upload, manage, and interact w
 - Tools: Postman, Git, GitHub
 
 ## 📸 Screenshots
-![API Checkings Using Postman]
-<img width="1383" height="538" alt="Screenshot 2026-04-01 130831" src="https://github.com/user-attachments/assets/0939c486-6ad6-4cc8-b18f-6425c5819e7e" />
-<img width="1383" height="880" alt="Screenshot 2026-04-01 130802" src="https://github.com/user-attachments/assets/9760a810-e3cb-43d3-be15-c96620e72cab" />
-<img width="1388" height="658" alt="Screenshot 2026-04-01 130546" src="https://github.com/user-attachments/assets/54971b09-ee25-4f0a-9c5b-89114c24ea04" />
-<img width="1376" height="910" alt="Screenshot 2026-04-01 130508" src="https://github.com/user-attachments/assets/e668f043-99d5-4bf2-a2d2-9380c019ea0d" />
-<img width="1380" height="883" alt="Screenshot 2026-04-01 130903" src="https://github.com/user-attachments/assets/f083f111-2ab6-4847-982c-ffef211b586e" />
+[API Checkings Using Postman]
+<img width="1391" height="820" alt="Screenshot 2026-04-01 132355" src="https://github.com/user-attachments/assets/682b9881-3f95-4cf8-8251-9b62a563b15e" />
+<img width="1394" height="821" alt="Screenshot 2026-04-01 132319" src="https://github.com/user-attachments/assets/697ac1c5-f98d-46fd-a845-880db27169ef" />
+<img width="1382" height="590" alt="Screenshot 2026-04-01 132250" src="https://github.com/user-attachments/assets/b2252cf4-521d-4081-a33d-26dfa2e69bcc" />
+<img width="1384" height="827" alt="Screenshot 2026-04-01 132230" src="https://github.com/user-attachments/assets/9ccf2697-574b-4a46-9d06-f97d23794f44" />
+<img width="1383" height="473" alt="Screenshot 2026-04-01 132415" src="https://github.com/user-attachments/assets/ef3f33b3-8950-4281-8cf7-e4ee03237b7a" />
 
