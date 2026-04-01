@@ -1,20 +1,21 @@
-# Chai aur Backend Project
+# 📱 Media Sharing Platform
 
-Let's start the journey to make a real world backend application
+## 🚀 Overview
+A full-stack web application that allows users to upload, manage, and interact with media content. It includes authentication, media storage, and scalable backend APIs.
 
-check the folder structure(used .gitkeep and .gitignore)
+## ✨ Features
+- 🔐 User Authentication (JWT + Bcrypt)
+- 📤 Media Upload (Cloudinary integration)
+- 📊 RESTful APIs for content management
+- 🗂 MongoDB schema design with multiple collections
+- ⚡ Optimized data retrieval using aggregation pipelines
 
-installed dev dependencies like 'prettier'(.prettierrc, .prettierignore) and dependencies like 'express', 'mongoose', 'dotenv'
+## 🛠 Tech Stack
+- Backend: Node.js, Express.js
+- Database: MongoDB
+- Cloud: Cloudinary
+- Tools: Postman, Git, GitHub
 
-connected Mongodb compass
-
-always use try catch while working with databases, use async await
-
-in which file you are using env variables always import 'dotenv/config'
+## 📸 Screenshots
 
 
-cookie-parser, cors installing
-
-make classes for ApiError and ApiResponse
-
-make a wrapper function(responseHandler) to do database related works
