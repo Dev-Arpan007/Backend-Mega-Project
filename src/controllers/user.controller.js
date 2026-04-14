@@ -1,5 +1,5 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { ApiError } from "../utils/apiErrors.js";
+import { ApiError } from "../utils/ApiErrors.js";
 import { User } from "../models/user.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
@@ -324,7 +324,7 @@ const changeCurrentPassword = asyncHandler(async (req, res) =>{
 
 
 })
-
+ 
 const getCurrentUser = asyncHandler(async (req, res) =>{
     // const user = req.user
     // if(!user){
@@ -465,7 +465,7 @@ const getUserChannelProfile = asyncHandler(async(req,res)=>{
         },
         {
             $lookup:{ //joining operation
-                from: "subscriptions", // Subscription Table got stored in Mongodb as "subscriptions"
+                from: "subscriptions", // "Subscription" Table got stored in Mongodb as "subscriptions"
                 localField:"_id",
                 foreignField: "channel",
                 as: "subscribersList"
