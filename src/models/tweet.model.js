@@ -1,4 +1,4 @@
-import mongoose, {Schema, Model} from "mongoose"
+import mongoose, {Schema, model} from "mongoose"
 
 const tweetSchema = new Schema(
     {
@@ -16,4 +16,4 @@ const tweetSchema = new Schema(
 })
 
 
-export const Tweet = Model("Tweet", tweetSchema)
+export const Tweet = model("Tweet", tweetSchema)
