@@ -41,6 +41,7 @@ app.use(cookieparser())
 
 import userRouter from "./routes/user.routes.js"
 import tweetRouter from "./routes/tweet.routes.js"
+import likesRouter from "./routes/like.routes.js"
 //since router was exported as 'default' we were able to change the name to userRouter
 
 
@@ -48,6 +49,7 @@ import tweetRouter from "./routes/tweet.routes.js"
 
 app.use("/api/v1/users", userRouter)
 app.use("/api/v1/tweets", tweetRouter)
+app.use("/api/v1/likes", likesRouter)
 // since we are using router here that is declared somewhere else, we can't directly use app.get("url", func)
 
 // when user hits '/api/v1/users', control will go to userRouter
